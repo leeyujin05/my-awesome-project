@@ -209,100 +209,33 @@
             // 클릭한 메뉴명을 대제목으로 주입
             subTitle.innerText = menuName;
 
-           // 💡 '신라 동해안 3비 개요' 안에 담길 3개 탭의 독립 데이터 정의 (내용 추가·수정 가능)
-const overviewTabData = [
-    {
-        tabName: "3비 개요 및 소개",
-        content: `<h4 class="text-xl font-bold text-teal-900 mb-4">동해안 신라비 종합 소개</h4>
-                  <p class="mb-4">포항 중성리, 포항 냉수리, 울진 봉평리에서 발견된 세 비석은 신라의 전성기 진입 직전의 생생한 기록입니다.</p>
-                  <p class="text-gray-500 italic">[여기에 첫 번째 탭 세부 내용을 자유롭게 작성하세요]</p>`
-    },
-    {
-        tabName: "역사적 발견 배경",
-        content: `<h4 class="text-xl font-bold text-teal-900 mb-4">신라비의 발견과 조사 과정</h4>
-                  <p class="mb-4">우연한 기회에 세상에 드러난 각 비석들의 발굴 경위와 당시 학계의 흥분을 기록한 자료 영역입니다.</p>
-                  <p class="text-gray-500 italic">[여기에 두 번째 탭 세부 내용을 자유롭게 작성하세요]</p>`
-    },
-    {
-        tabName: "종합 보존 현황",
-        content: `<h4 class="text-xl font-bold text-teal-900 mb-4">국보 지정 및 보존 시설 관리</h4>
-                  <p class="mb-4">현재 국보로 지정되어 특별 보존 및 관리되고 있는 신라 3비의 박물관 이관 상태와 관리 현황입니다.</p>
-                  <p class="text-gray-500 italic">[여기에 세 번째 탭 세부 내용을 자유롭게 작성하세요]</p>`
-    }
-];
-
-// 페이지 이동 및 탭 노출 제어 함수
-function navigateTo(element) {
-    const menuName = element.innerText.trim();
-    
-    const homeContent = document.getElementById('content-home');
-    const subContent = document.getElementById('content-sub');
-    const subTitle = document.getElementById('sub-title');
-    const subBody = document.getElementById('sub-body');
-    const tabContainer = document.getElementById('overview-tabs');
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    homeContent.classList.add('hidden');
-    subContent.classList.remove('hidden');
-    subTitle.innerText = menuName;
-
-    // 💡 '신라 동해안 3비 개요' 메뉴일 때만 탭 활성화
-    if (menuName === "신라 동해안 3비 개요") {
-        tabContainer.classList.remove('hidden'); // 탭 바 보이기
-        initTabs();   // 탭 버튼 글자 매칭
-        switchTab(0); // 첫 번째 탭 기본 활성화
-    } else {
-        tabContainer.classList.add('hidden'); // 다른 메뉴는 탭 바 숨기기
-        
-        // 일반 메뉴용 기본 본문 양식 (필요시 내용을 아래 분기문으로 추가하세요)
-        if (menuName === "포항 중성리비") {
-            subBody.innerHTML = `<p class="font-bold text-teal-800">포항 중성리 신라비 전용 공간입니다.</p>`;
-        } else {
-            subBody.innerHTML = `
-                <div class="flex flex-col items-center justify-center py-12 text-gray-400">
-                    <p class="font-medium text-base">현재 <span class="text-teal-700 font-bold">'${menuName}'</span> 페이지의 내용을 구성 중입니다.</p>
-                </div>`;
+            // 💡 메뉴별 개별 내용을 넣고 싶다면 아래 if문 양식을 활용하여 추가할 수 있습니다.
+            if (menuName === "신라 동해안 3비 개요") {
+                subBody.innerHTML = `
+                    <p class="mb-4 font-semibold text-teal-800">포항 중성리·냉수리, 울진 봉평리 신라비에 대한 종합 개요 영역입니다.</p>
+                    <p class="text-gray-600">여기에 원하시는 글, 이미지, 표 등을 자유롭게 HTML 형식으로 채워 넣으시면 됩니다.</p>
+                `;
+            } else {
+                // 개별 내용이 아직 등록되지 않은 모든 메뉴 항목들의 기본 상태
+                subBody.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-12 text-gray-400">
+                        <svg class="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        <p class="font-medium text-base">현재 <span class="text-teal-700 font-bold">'${menuName}'</span> 페이지의 내용을 구성 중입니다.</p>
+                        <p class="text-xs mt-1 text-gray-400">HTML 코드를 통해 멋진 콘텐츠를 채워보세요!</p>
+                    </div>
+                `;
+            }
         }
-    }
-}
 
-// 탭 버튼 글자 초기화 기능
-function initTabs() {
-    const buttons = document.querySelectorAll('.tab-btn');
-    buttons.forEach((btn, idx) => {
-        if(overviewTabData[idx]) {
-            btn.innerText = overviewTabData[idx].tabName;
+        // 홈 화면(메인)으로 돌아가는 함수
+        function showContent(pageKey) {
+            if (pageKey === 'home') {
+                document.getElementById('content-home').classList.remove('hidden');
+                document.getElementById('content-sub').classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
-    });
-}
+    </script>
 
-// 탭 클릭 전환 및 스타일 변경 함수
-function switchTab(tabIndex) {
-    const buttons = document.querySelectorAll('.tab-btn');
-    const subBody = document.getElementById('sub-body');
-
-    // 모든 탭 버튼 스타일 초기화 (비활성화 상태)
-    buttons.forEach(btn => {
-        btn.classList.remove('border-teal-700', 'text-teal-700', 'font-bold');
-        btn.classList.add('border-transparent', 'text-gray-500', 'font-medium');
-    });
-
-    // 선택한 탭 버튼 활성화 스타일 주입
-    buttons[tabIndex].classList.remove('border-transparent', 'text-gray-500', 'font-medium');
-    buttons[tabIndex].classList.add('border-teal-700', 'text-teal-700', 'font-bold');
-
-    // 선택한 탭 데이터 매칭하여 본문에 출력
-    if (overviewTabData[tabIndex]) {
-        subBody.innerHTML = overviewTabData[tabIndex].content;
-    }
-}
-
-// 홈으로 복귀
-function showContent(pageKey) {
-    if (pageKey === 'home') {
-        document.getElementById('content-home').classList.remove('hidden');
-        document.getElementById('content-sub').classList.add('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-}
+</body>
+</html>
